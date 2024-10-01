@@ -1,6 +1,6 @@
 #include <DHT.h> // biblioteca do sensor de temperatura e umidade DHT11
 #include <DHT_U.h>
-#define DHTPIN A0 // pino que estamos conectado
+#define DHTPIN A0 // pino do Arduíno ligado ao sensor DHT11
 #define DHTTYPE DHT11 // DHT 11
 #define VEL_SOM 340 // definição da velocidade do som, em metros por seg
 
@@ -11,8 +11,7 @@ char led;
 int r,g,b; 
 int ldr = A1;//Atribui A1 a variável ldr
 int valorldr = 0;//Declara a variável valorldr como inteiro
-DHT dht(DHTPIN, DHTTYPE);
-
+DHT dht(DHTPIN, DHTTYPE)
 
 float disparaTrig(){  // A função diapara um sinal de trigger no pino pinTrig com largura de 10 microssegundos
   digitalWrite(pinTrig,HIGH);
@@ -22,11 +21,11 @@ float disparaTrig(){  // A função diapara um sinal de trigger no pino pinTrig 
 }
 
 float lerDistancia(){
-    float tempo, distancia;
-      tempo = disparaTrig(); // dispara sinal de Trig e retorna a duracao do pulso (em microssegundos) que indica a distancia
-      distancia=tempo*0.000001*VEL_SOM*100/2; // determina a distancia em cm     
-      Serial.println("Distancia em centimetros: "); // apresenta o resultado
-      Serial.println(distancia,DEC);  
+  float tempo, distancia;
+  tempo = disparaTrig(); // dispara sinal de Trig E retorna a duracao do pulso (em microssegundos) que indica a distancia
+  distancia=tempo*0.000001*VEL_SOM*100/2; // determina a distancia em cm     
+  Serial.println("Distancia em centimetros: "); // apresenta o resultado
+  Serial.println(distancia,DEC);  
 }
 
 float lerTemp(){
@@ -43,33 +42,33 @@ float lerTemp(){
 }
 
 float lerLuminosidade(){
-   valorldr = analogRead(ldr); //Lê o valor do sensor ldr e armazena na variável valorldr
-   Serial.print("Valor lido pelo LDR = ");/ /Imprime na serial a mensagem Valor lido pelo LDR
-   Serial.println(valorldr); //Imprime na serial os dados de valorldr
+  valorldr = analogRead(ldr); //Lê o valor do sensor ldr e armazena na variável valorldr
+  Serial.print("Valor lido pelo LDR = "); //Imprime na serial a mensagem Valor lido pelo LDR
+  Serial.println(valorldr); //Imprime na serial os dados de valorldr
 }
 
 float ligarLed(char led){
-      if (led == 'A'){
-        digitalWrite(8,HIGH);
-    }
-      if (led == 'B'){
-        digitalWrite(9,HIGH);
-      }
-      if (led == 'C'){
-        digitalWrite(10,HIGH);
-      }
+  if (led == 'A'){
+    digitalWrite(8,HIGH);
+  }
+  if (led == 'B'){
+    digitalWrite(9,HIGH);
+  }
+  if (led == 'C'){
+    digitalWrite(10,HIGH);
+  }
 }
 
 float desligarLed(char led){
   if (led == 'A'){
-        digitalWrite(8,LOW);
-    }
-      if (led == 'B'){
-        digitalWrite(9,LOW);
-      }
-      if (led == 'C'){
-        digitalWrite(10,LOW);
-      }
+    digitalWrite(8,LOW);
+  }
+  if (led == 'B'){
+    digitalWrite(9,LOW);
+  }
+  if (led == 'C'){
+    digitalWrite(10,LOW);
+  }
 }
 
 float ligarBuzzer(){
@@ -109,16 +108,16 @@ int desligarRGB(){
 #define chEnter A9
 #define chModo A10
 
-//Vatiaveis a serem testadas
+//Variaveis a serem testadas
 int val1=0, val2=0, val3=0, val4=0, valEnter=0, valModo=0;
 
 
 void setup() {
-  pinMode(pinEcho,INPUT);  // define os pinos do Arduíno
-                           // Observe que o pino Echo de saída do módulo ultrassônico se conecta com o pino pinEcho de entrada do Arduíno   
+  pinMode(pinEcho,INPUT);  // define os pinos do Arduíno  
   pinMode(pinTrig,OUTPUT); // Analogamente, o pino Trig de entrada do módulo ultrassônico se conecta com o pino pinTrig de saída do Arduíno
+  digitalWrite(pinTrig,LOW);
   // inicializa o pino de Trig e a porta serial
-  pinMode(ldr, INPUT);//Define ldr (pino analógico A1) como saída
+  pinMode(ldr, INPUT); // Define ldr (pino analógico A1) como saída
   pinMode(7,OUTPUT);
   pinMode(8,OUTPUT);
   pinMode(9,OUTPUT);
@@ -132,10 +131,10 @@ void setup() {
   pinMode(A8,INPUT);
   pinMode(A9,INPUT);
   pinMode(A10,INPUT);
-  digitalWrite(pinTrig,LOW);
   Serial.begin(9600);
   dht.begin();
 }
+
 String comando;
 
 void loop() {
@@ -203,53 +202,52 @@ void loop() {
     valEnter = digitalRead(chEnter);
     valModo = digitalRead(chModo);
     
-  
-    if (!val1 && !val2 && !val3 && !val4 && valEnter){
+    if (!val1 && !val2 && !val3 && !val4 && valEnter){ //0000 liga o led verde
       ligarLed('A');
     }
-    if (!val1 && !val2 && !val3 && val4 && valEnter){
+    if (!val1 && !val2 && !val3 && val4 && valEnter){ //0001 desliga o led verde
       desligarLed('A');
     }
-    if (!val1 && !val2 && val3 && !val4 && valEnter){
+    if (!val1 && !val2 && val3 && !val4 && valEnter){ //0010 liga o led azul
       ligarLed('B');
     }
-    if (!val1 && !val2 && val3 && val4 && valEnter){
+    if (!val1 && !val2 && val3 && val4 && valEnter){ //0011 desliga o led azul
       desligarLed('B');
     }
-    if (!val1 && val2 && !val3 && !val4 && valEnter){
+    if (!val1 && val2 && !val3 && !val4 && valEnter){ //0100 liga o led vermelho
       ligarLed('C');
     }
-    if (!val1 && val2 && !val3 && val4 && valEnter){
+    if (!val1 && val2 && !val3 && val4 && valEnter){ //0101 desliga o led vermelho
       desligarLed('C');
     }
-    if (!val1 && val2 && val3 && !val4 && valEnter){
+    if (!val1 && val2 && val3 && !val4 && valEnter){ //0110 liga o buzzer
       ligarBuzzer();
     }
-    if (!val1 && val2 && val3 && val4 && valEnter){
+    if (!val1 && val2 && val3 && val4 && valEnter){ //0111 desliga o buzzer
       desligarBuzzer();
-    }
-    if (val1 && !val2 && !val3 && !val4 && valEnter){
+    } 
+    if (val1 && !val2 && !val3 && !val4 && valEnter){ //1000 liga o led RGB vermelho
       r = 1;
       definirCorRGB(r, g, b);
     }
-    if (val1 && !val2 && !val3 && val4 && valEnter){
+    if (val1 && !val2 && !val3 && val4 && valEnter){ //1001 liga o led RGB verde
       g = 1;
       definirCorRGB(r, g, b);
     }
-    if (val1 && !val2 && val3 && !val4 && valEnter){
+    if (val1 && !val2 && val3 && !val4 && valEnter){ //1010 liga o led RGB azul
       b = 1;
       definirCorRGB(r, g, b);
     }
-    if (val1 && !val2 && val3 && val4 && valEnter){
+    if (val1 && !val2 && val3 && val4 && valEnter){ //1011 liga o sensor de distância
       lerDistancia();
     }
-    if (val1 && val2 && !val3 && !val4 && valEnter){
+    if (val1 && val2 && !val3 && !val4 && valEnter){ //1100 liga o sensor de temperatura
       lerTemp();
     }
-    if (val1 && val2 && !val3 && val4 && valEnter){
+    if (val1 && val2 && !val3 && val4 && valEnter){ //1101 liga o sensor de luminosidade
       lerLuminosidade();
     }
-    if (val1 && val2 && val3 && !val4 && valEnter){
+    if (val1 && val2 && val3 && !val4 && valEnter){ //1110 desliga o led RGB
       desligarRGB();
     }
     delay(5000);
