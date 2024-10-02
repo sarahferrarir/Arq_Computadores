@@ -7,7 +7,7 @@
 #include <DHT_U.h>
 
 // Definições (#define)
-#define DHTPIN A0  // pino do Arduíno ligado ao sensor DHT11
+#define DHTPIN A0       // pino do Arduíno ligado ao sensor DHT11
 #define DHTTYPE DHT11   // DHT 11
 #define VEL_SOM 340     // definição da velocidade do som, em metros por seg
 // Definindo as chaves para modo de programação binária
@@ -19,13 +19,13 @@
 #define chModo A10      // Chave Modo - inicia / encerra o modo de programação binária
 
 // Declaração de variáveis globais
-int progSerial = 0; // Modo de programação serial começa desligado
-int pinEcho = 6;  // pino do Arduíno ligado ao pino Echo do sensor
-int pinTrig = 5;  // pino do Arduíno ligado ao pino Trig do sensor
+int progSerial = 0;     // Modo de programação serial começa desligado
+int pinEcho = 6;        // pino do Arduíno ligado ao pino Echo do sensor
+int pinTrig = 5;        // pino do Arduíno ligado ao pino Trig do sensor
 char led;
 int r, g, b;
-int ldr = A1;      // Atribui A1 à variável ldr
-int valorldr = 0;  // Declara a variável valorldr como inteiro
+int ldr = A1;          // Atribui A1 à variável ldr
+int valorldr = 0;      // Declara a variável valorldr como inteiro
 DHT dht(DHTPIN, DHTTYPE); // Inicializa o sensor DHT com o pino e tipo definidos
 String comando; 
 String modo;
@@ -63,13 +63,21 @@ float lerLuminosidade() { // Sensor LDR - tipo de resistor cuja resistência var
   // Quando há pouca luz, a resistência do LDR é alta.
   // Quando há muita luz, a resistência do LDR é baixa.
   valorldr = analogRead(ldr);  // Lê o valor do sensor ldr e armazena na variável valorldr
-  if (valorldr < 100) {        // Indica que a resistência do LDR está baixa, ou seja, é um ambiente bem iluminado.
-    digitalWrite(7, HIGH);     // Ligar buzzer
+  Serial.print("Valor lido pelo LDR = "); //Imprime na serial a mensagem Valor lido pelo LDR
+  Serial.println(valorldr); //Imprime na serial os dados de valorldr
+  if (valorldr < 100) {  // Indica que a resistência do LDR está baixa, ou seja, é um ambiente bem iluminado.
+    digitalWrite(7, HIGH);  // Ligar buzzer
+    digitalWrite(9, LOW);   // Desligar led B (azul)
   } 
-  else {                       // Ambiente mais escuro, com pouca luz 
-    digitalWrite(7, LOW);      // Desligar buzzer
+  if (valorldr > 600) {  // Indica que a resistência do LDR está alta, ou seja, ambiente mais escuro, com pouca luz .
+    digitalWrite(9, HIGH);  // Ligar led B 
+    digitalWrite(7, LOW);   // Desligar buzzer
+  } 
+  if (valorldr < 600 and valorldr > 100) {   // Não há uma intensidade muito forte nem muito fraca. Meio termo. 
+    digitalWrite(7, LOW);   // Desligar buzzer
+    digitalWrite(9, LOW);   // Desligar led B 
   }
-  delay(100);                  // Aguarda 100 milisegundos
+  delay(100);   // Aguarda 100 milisegundos
 }
 
 // Funções relacionadas a LEDs e buzzer
