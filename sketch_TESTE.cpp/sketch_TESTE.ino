@@ -103,10 +103,6 @@ int desligarRGB(){
   digitalWrite(13,LOW);
 }
 
-int fimModo(){
-  progSerial = 0;
-} 
-
 int modoProgSerial(){
   while(progSerial){
     if (Serial.available() > 0) { // Verifica se há sinal disponível na serial
@@ -161,7 +157,7 @@ int modoProgSerial(){
         lerLuminosidade();
       }
       if (comando == "FIM_SERIAL"){
-        fimModo();
+         progSerial = 0;
       }
     }
   }
@@ -234,6 +230,10 @@ int modoProgBinaria(){
       lerLuminosidade();
     }
     if (val1 && val2 && val3 && !val4 && valEnter){ //1110 desliga o led RGB
+      progSerial = 1;
+      desligarRGB();
+    }
+    if (val1 && val2 && val3 && val4 && valEnter){ //1110 desliga o led RGB
       progSerial = 1;
       modoProgSerial();
     }
