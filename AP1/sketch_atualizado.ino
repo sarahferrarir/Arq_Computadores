@@ -1,6 +1,6 @@
 // GRUPO 3
 // 202307476331 Sarah Ferrari (TA)
-// xxxxxxxxxxxx Pedro Henrique Silvestre (TA)
+// 202402841904 Pedro Henrique Silvestre (TA)
 
 // Inclusão de bibliotecas do sensor de temperatura e umidade DHT11
 #include <DHT.h>  
